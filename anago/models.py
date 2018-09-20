@@ -107,6 +107,8 @@ class BiLSTMCRF(object):
 
         word_embeddings = Dropout(self._dropout)(word_embeddings)
         z = Bidirectional(LSTM(units=self._word_lstm_size, return_sequences=True))(word_embeddings)
+        z = Dropout(self._dropout)(z)
+        z = Dense(self._fc_dim, activation='tanh')(z)
         z = Dense(self._fc_dim, activation='tanh')(z)
 
         if self._use_crf:
